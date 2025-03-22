@@ -116,7 +116,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(240deg 3.7% 15.9%) transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
-  }
+  }  
 }
