@@ -180,7 +180,7 @@ def list_files():
 def get_file(id):
     for filename in os.listdir(app.config["UPLOAD_FOLDER"]):
         if filename == ".gitignore":
-            return jsonify({"error": "File not found"}), 404
+            continue
 
         if generate_file_id(filename) == id:
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -198,7 +198,7 @@ def get_file(id):
 def delete_file(id):
     for filename in os.listdir(app.config["UPLOAD_FOLDER"]):
         if filename == ".gitignore":
-            return jsonify({"error": "File not found"}), 404
+            continue
         
         if generate_file_id(filename) == id:
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
