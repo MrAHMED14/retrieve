@@ -6,7 +6,8 @@ import { SearchResults } from "@/components/global/search-results";
 export default function Home() {
   return (
     <main className="container mx-auto py-20 px-4 max-w-5xl">
-      <h1 className="text-3xl font-bold mb-8 text-center">Document Search Engine</h1>
+      <h1 className="text-4xl font-bold text-center">Unlock Knowledge at Your Fingertips</h1>
+      <h4 className="text-xl font-semibold mb-10 text-center text-muted-foreground">Information Retrieval System</h4>
 
       <div className="grid gap-8">
         <section className="bg-card rounded-lg p-6 shadow-sm">

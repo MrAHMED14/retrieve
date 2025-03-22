@@ -1,7 +1,6 @@
 "use client"
 
 import { Github } from "lucide-react"
-import { useTheme } from "next-themes"
 import Link from "next/link"
 
 export function Footer() { 
@@ -12,7 +11,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-sm text-muted-foreground">
-            © {currentYear} MrAHMED. All rights reserved.
+            © {currentYear} <Link href="https://github.com/mrahmed14" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-white">MrAHMED</Link>. All rights reserved.
           </div>
 
           <div className="flex items-center gap-4">
