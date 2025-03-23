@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Retrieve",
-  description: "Retrieve description",
+  description: "Information retrieval system",
 }
 
 export default function RootLayout({
@@ -22,14 +22,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={cn("flex flex-col min-h-screen antialiased", inter.className)}
+        className={cn(
+          "flex flex-col min-h-screen antialiased",
+          inter.className
+        )}
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Navbar />  
+          <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-          <Toaster position="top-center" richColors   />
+          <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>
