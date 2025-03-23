@@ -43,8 +43,8 @@ export function SearchResults() {
       try {
         const response = await fetch( 
           `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:5000"}/search?q=${encodeURIComponent(query)}`
-        )
-
+        ) 
+        
         if (!response.ok) {
           throw new Error("Search failed")
         }
@@ -53,7 +53,7 @@ export function SearchResults() {
         setResults(data.results)
       } catch (err) {
         console.error("Search error:", err)
-        setError("Failed to perform search. Please try again.")
+        setError("No documents are currently indexed.")
         setResults([])
       } finally {
         setLoading(false)
