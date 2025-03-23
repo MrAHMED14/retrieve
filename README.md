@@ -1,13 +1,6 @@
 ## About This Project
 This project is a **information retrieval system** that allows users to upload and search documents (PDF & TXT files). It uses **TF-IDF vectorization** for efficient information retrieval. The backend is built with **Flask**, while the frontend is built with **Next.js**.
 
-## Project Structure
-```
-|-/backend       # Contains the Flask API
-|-/frontend      # Frontend application 
-|-README.md      # Project documentation
-```
-
 ## Installation & Setup
 ### Prerequisites
 Ensure you have the following installed:
@@ -26,6 +19,7 @@ Navigate to the `backend/` folder and install the dependencies:
 ```bash
 cd backend
 pip install -r requirements.txt
+python nltk-download.py
 python app.py
 ```
 
