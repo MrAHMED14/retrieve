@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { createHash } from "crypto"
 import { File, FileText, Trash2 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { toast } from "sonner"
 
 type DocumentInfo = {
@@ -15,13 +14,10 @@ type DocumentInfo = {
   lastModified: string
 }
 
-function generateFileId(filename: string): string {
-  return createHash("md5").update(filename).digest("hex");
-}
-
 export function DocumentList() {
   const [documents, setDocuments] = useState<DocumentInfo[]>([])
   const [loading, setLoading] = useState(true)
+  const [isDeleting, startTransition] = useTransition()
 
   useEffect(() => {
     fetchDocuments()
@@ -29,17 +25,19 @@ export function DocumentList() {
 
   const fetchDocuments = async () => {
     try {
-      setLoading(true) 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:5000"}/files`) 
-      
+      setLoading(true)
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:5000"}/files`
+      )
+
       if (!response.ok) {
         throw new Error("Failed to fetch documents")
       }
 
-      const data = await response.json() 
+      const data = await response.json()
       setDocuments(data.files)
     } catch (error) {
-      console.error("Error fetching documents:", error) 
+      console.error("Error fetching documents:", error)
 
       toast.error("Failed to load documents")
     } finally {
@@ -48,25 +46,31 @@ export function DocumentList() {
   }
 
   const handleDelete = async (id: string) => {
-    try { 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:5000"}/file/${id}/delete`, {
-        method: "DELETE",
-      })
+    startTransition(async () => {
+      try {
+        const response = await fetch(
+          `${
+            process.env.NEXT_PUBLIC_BASE_URL ?? "http://127.0.0.1:5000"
+          }/file/${id}/delete`,
+          {
+            method: "DELETE",
+          }
+        )
 
-      if (!response.ok) {
-        throw new Error("Failed to delete document")
+        if (!response.ok) {
+          throw new Error("Failed to delete document")
+        }
+
+        setDocuments(documents.filter((doc) => doc.id !== id))
+
+        toast.success("Document deleted", {
+          description: "The document has been removed from the index.",
+        })
+      } catch (error) {
+        console.error("Error deleting document:", error)
+        toast.error("Failed to delete document")
       }
-
-      setDocuments(documents.filter((doc) => doc.id !== id))
-  
-      toast.success("Document deleted",{
-        description: "The document has been removed from the index.",
-      })
-    } catch (error) {
-      console.error("Error deleting document:", error) 
-
-      toast.error("Failed to delete document")
-    }
+    })
   }
 
   if (loading) {
@@ -102,10 +106,11 @@ export function DocumentList() {
               )}
               <span className="line-clamp-2">{doc.name}</span>
             </CardTitle>
-          </CardHeader> 
-          <CardFooter className="mt-4"> 
+          </CardHeader>
+          <CardFooter className="mt-4">
             <Button
               variant="outline"
+              disabled={isDeleting}
               size="sm"
               onClick={() => handleDelete(doc.id)}
               className="text-destructive"
@@ -119,4 +124,3 @@ export function DocumentList() {
     </div>
   )
 }
-
